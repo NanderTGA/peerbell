@@ -1,7 +1,15 @@
-interface ServerToClientEvents {
-    a
+export interface ServerToClientEvents {
+    // nothing yet
 }
 
-interface ClientToServerEvents {
+export interface ClientToServerEvents {
     ready: (callback: (address: string) => void) => void
+}
+
+export interface InterServerEvents {
+    // nothing yet
+}
+
+export interface SocketData {
+    address: string
 }

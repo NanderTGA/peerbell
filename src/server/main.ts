@@ -1,10 +1,11 @@
 import http from "http";
 import express from "express";
 import { Server } from "socket.io";
+import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from "../event typings";
 
 const app = express();
 const httpServer = http.createServer(app);
-const io = new Server(httpServer);
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer);
 
 io.on("connection", socket => {
     console.log("someone connected");
