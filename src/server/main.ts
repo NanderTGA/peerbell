@@ -1,11 +1,11 @@
 import http from "http";
 import express from "express";
-import { Server } from "socket.io";
-import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from "../event typings";
+import { Server as SocketIOServer } from "socket.io";
+import PeerbellServer from "../event typings";
 
 const app = express();
 const httpServer = http.createServer(app);
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer);
+const io: PeerbellServer = new SocketIOServer(httpServer);
 
 io.on("connection", socket => {
     console.log("someone connected");
