@@ -6,7 +6,8 @@
         "strictFunctionTypes": true,
         "strict": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "resolveJsonModule": true
     },
     "exclude": [
         "node_modules",
