@@ -18,5 +18,5 @@ export interface SocketData {
 
 export type PeerbellServer = SocketIOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
 
-export type PeerbellClient = SocketIOClient<ServerToClientEvents, ClientToServerEvents>;
+export type PeerbellClient = SocketIOClient<ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData>;
 export default PeerbellClient;
