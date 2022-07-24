@@ -42,4 +42,4 @@ io.on("connection", socket => {
 });
 
 app.get("/", (_req, res) => res.send("This is a peerbell server. Peerbell is an open-source alternative to p3 and bell for windows 96 made by Carbon 96."));
-httpServer.listen(3000, () => console.log("Peerbell online at port 3000!"));
+httpServer.listen(162, () => console.log("Peerbell online at port 3000!"));
