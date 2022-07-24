@@ -31,6 +31,10 @@ io.on("connection", socket => {
         socket.data.address = address;
         return callback({ address: address });
     });
+
+    socket.on("disconnect", reason => {
+        socket.data.address && addressesInUse[socket.data.address] && delete addressesInUse[socket.data.address];
+    });
 });
 
 app.get("/", (_req, res) => res.send("This is a peerbell server. Peerbell is an open-source alternative to p3 and bell for windows 96 made by Carbon 96."));
