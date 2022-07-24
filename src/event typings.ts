@@ -5,7 +5,7 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-    ready: (callback: (address: string) => void) => void
+    ready: (staticAddress: string | undefined, password: string | undefined, callback: (data: { error?: "wrong user" | "wrong password" | "address in use", address?: string }) => void) => void
 }
 
 export interface InterServerEvents {
