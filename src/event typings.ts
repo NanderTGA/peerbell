@@ -1,4 +1,5 @@
-import { Server as SocketIOServer, Socket as SocketIOClient } from "socket.io";
+import { Server as SocketIOServer } from "socket.io";
+import { Socket as SocketIOClient } from "socket.io-client";
 
 export interface ServerToClientEvents {
     // nothing yet
@@ -18,5 +19,5 @@ export interface SocketData {
 
 export type PeerbellServer = SocketIOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
 
-export type PeerbellClient = SocketIOClient<ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData>;
+export type PeerbellClient = SocketIOClient<ServerToClientEvents, ClientToServerEvents>;
 export default PeerbellClient;
