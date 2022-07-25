@@ -48,6 +48,8 @@ io.on("connection", socket => {
         addressesInUse[socket.data.address][port] = { name: serviceName, description: serviceDescription };
         return callback(true);
     });
+
+    socket.on("error", e => console.error("fail", e));
 });
 
 app.get("/", (_req, res) => res.send("This is a peerbell server. Peerbell is an open-source alternative to p3 and bell for windows 96 made by Carbon 96."));
