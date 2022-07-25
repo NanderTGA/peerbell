@@ -9,7 +9,7 @@ const app = express();
 const httpServer = http.createServer(app);
 const io: PeerbellServer = new SocketIOServer(httpServer);
 
-const addressesInUse: Record<string, boolean> = {};
+const addressesInUse: Record<string, Record<number, { name: string, description: string }>> = {};
 
 io.on("connection", socket => {
     console.log("someone connected");
@@ -19,7 +19,7 @@ io.on("connection", socket => {
             if (!(users[staticAddress] == password)) return callback({ error: "wrong password" });
             if (addressesInUse[staticAddress]) return callback({ error: "address in use" });
 
-            addressesInUse[staticAddress] = true;
+            addressesInUse[staticAddress] = {};
             socket.data.address = staticAddress;
             return callback({ address: staticAddress });
         }
@@ -27,7 +27,7 @@ io.on("connection", socket => {
         let address = generateAddress();
         while (addressesInUse[address]) address = generateAddress(); // just in case we get unlucky
         
-        addressesInUse[address] = true;
+        addressesInUse[address] = {};
         socket.data.address = address;
         return callback({ address: address });
     });
@@ -38,6 +38,15 @@ io.on("connection", socket => {
 
     socket.on("get address", callback => {
         callback(socket.data.address);
+    });
+
+    socket.on("expose", (port, serviceName = "No name provided.", serviceDescription = "No description provided.", callback) => {
+        if (!port || typeof port != "number") return callback(false, "port is not a number");
+        if (!socket.data.address) return callback(false, "no address");
+        if (addressesInUse[socket.data.address][port]) return callback(false, "port already in use");
+
+        addressesInUse[socket.data.address][port] = { name: serviceName, description: serviceDescription };
+        return callback(true);
     });
 });
 
