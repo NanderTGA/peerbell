@@ -33,6 +33,7 @@ io.on("connection", socket => {
     });
 
     socket.on("disconnect", reason => {
+        console.log("bye bye", socket.data.address);
         socket.data.address && services[socket.data.address] && delete services[socket.data.address];
     });
 
