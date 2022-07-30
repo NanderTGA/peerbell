@@ -21,6 +21,7 @@ io.on("connection", socket => {
 
             services[staticAddress] = {};
             socket.data.address = staticAddress;
+            console.log(staticAddress, "logged on");
             return callback({ address: staticAddress });
         }
         
@@ -29,6 +30,7 @@ io.on("connection", socket => {
         
         services[address] = {};
         socket.data.address = address;
+        console.log("welcome", address);
         return callback({ address: address });
     });
 
