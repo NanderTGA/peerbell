@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES2022",
-        "jsx": "preserve",
+        "module"             : "CommonJS",
+        "target"             : "ES2022",
+        "jsx"                : "preserve",
         "strictFunctionTypes": true,
-        "strict": true,
-        "esModuleInterop": true,
-        "moduleResolution": "Node",
-        "resolveJsonModule": true
+        "strict"             : true,
+        "esModuleInterop"    : true,
+        "moduleResolution"   : "Node",
+        "resolveJsonModule"  : true,
+        "pretty"             : true
     },
     "exclude": [
         "node_modules",
