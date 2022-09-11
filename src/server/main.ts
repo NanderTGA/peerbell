@@ -19,7 +19,7 @@ io.on("connection", socket => {
             if (!(users[staticAddress] == password)) return callback({ error: "wrong password" });
             if (services[staticAddress]) return callback({ error: "address in use" });
 
-            services[staticAddress] = {};
+            services[staticAddress] = { id: socket.id };
             socket.data.address = staticAddress;
             console.log(staticAddress, "logged on");
             return callback({ address: staticAddress });
@@ -28,7 +28,7 @@ io.on("connection", socket => {
         let address = generateAddress();
         while (services[address]) address = generateAddress(); // just in case we get unlucky
         
-        services[address] = {};
+        services[address] = { id: socket.id };
         socket.data.address = address;
         console.log("welcome", address);
         return callback({ address: address });
@@ -46,7 +46,7 @@ io.on("connection", socket => {
     socket.on("expose", (port, serviceName = "No name provided.", serviceDescription = "No description provided.", callback) => {
         if (!port || typeof port != "number") return callback(false, "port is not a number");
         if (!socket.data.address) return callback(false, "no address");
-        if (services[socket.data.address][port]) return callback(false, "port already in use");
+        if (services[socket.data.address][port]) return callback(false, "port already in use" );
 
         services[socket.data.address][port] = { name: serviceName, description: serviceDescription };
         return callback(true);

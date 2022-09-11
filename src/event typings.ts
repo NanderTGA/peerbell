@@ -4,7 +4,9 @@ import { Socket as SocketIOClient } from "socket.io-client";
 export type Services = Record<string, Record<number, {
     name: string;
     description: string;
-}>>;
+}> & {
+    id: string
+}>;
 
 export interface ServerToClientEvents {
     // nothing yet
