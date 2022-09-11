@@ -8,13 +8,13 @@ import config from "./config";
 import { readFileSync } from "fs";
 
 const app = express();
-const httpServer = https.createServer({
+const httpsServer = https.createServer({ // fuck http
     key : readFileSync(config.httpsOptions.key),
     cert: readFileSync(config.httpsOptions.cert),
     ca  : readFileSync(config.httpsOptions.ca)
 }, app);
 
-const io: PeerbellServer = new SocketIOServer(httpServer, {
+const io: PeerbellServer = new SocketIOServer(httpsServer, {
     cors: {
         origin     : "https://windows96.net",
         credentials: true
@@ -70,4 +70,4 @@ io.on("connection", socket => {
 });
 
 app.get("/", (_req, res) => res.send("This is a peerbell server. Peerbell is an open-source alternative to p3 and bell for windows 96 made by Carbon 96."));
-httpServer.listen(1620, () => console.log("Peerbell online at port 162!"));
+httpsServer.listen(config.port, () => console.log(`Peerbell online at port ${config.port}!`));
