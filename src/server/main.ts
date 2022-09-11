@@ -1,13 +1,25 @@
-import http from "http";
+import https from "https";
 import express from "express";
 import { Server as SocketIOServer } from "socket.io";
 import { PeerbellServer, Services } from "../event typings";
 import generateAddress from "../utils/random";
 import users from "./users";
+import config from "./config";
+import { readFileSync } from "fs";
 
 const app = express();
-const httpServer = http.createServer(app);
-const io: PeerbellServer = new SocketIOServer(httpServer);
+const httpServer = https.createServer({
+    key : readFileSync(config.httpsOptions.key),
+    cert: readFileSync(config.httpsOptions.cert),
+    ca  : readFileSync(config.httpsOptions.ca)
+}, app);
+
+const io: PeerbellServer = new SocketIOServer(httpServer, {
+    cors: {
+        origin     : "https://windows96.net",
+        credentials: true
+    }
+});
 
 const services: Services = {};
 
