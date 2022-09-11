@@ -1,39 +1,39 @@
 {
-  "name": "peerbell",
-  "version": "1.0.0",
-  "description": "Open-source replacement for p3 and bell for windows 96",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Carbon-96-for-Windows-96/peerbell.git"
-  },
-  "keywords": [
-    "peerbell",
-    "p3",
-    "bell",
-    "p2p",
-    "pseudo-peer-to-peer",
-    "ppp",
-    "peer-to-peer",
-    "w96",
-    "windows-96"
-  ],
-  "author": "Carbon 96 (https://github.com/Carbon-96-for-Windows-96)",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/Carbon-96-for-Windows-96/peerbell/issues"
-  },
-  "homepage": "https://github.com/Carbon-96-for-Windows-96/peerbell#readme",
-  "dependencies": {
-    "express": "^4.18.1",
-    "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "typescript": "^4.7.4"
-  }
+    "name"       : "peerbell",
+    "version"    : "1.0.0",
+    "description": "Open-source replacement for p3 and bell for windows 96",
+    "main"       : "index.js",
+    "scripts"    : {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url" : "git+https://github.com/Carbon-96-for-Windows-96/peerbell.git"
+    },
+    "keywords": [
+        "peerbell",
+        "p3",
+        "bell",
+        "p2p",
+        "pseudo-peer-to-peer",
+        "ppp",
+        "peer-to-peer",
+        "w96",
+        "windows-96"
+    ],
+    "author" : "Carbon 96 (https://github.com/Carbon-96-for-Windows-96)",
+    "license": "AGPL-3.0",
+    "bugs"   : {
+        "url": "https://github.com/Carbon-96-for-Windows-96/peerbell/issues"
+    },
+    "homepage"    : "https://github.com/Carbon-96-for-Windows-96/peerbell#readme",
+    "dependencies": {
+        "express"         : "^4.18.1",
+        "socket.io"       : "^4.5.1",
+        "socket.io-client": "^4.5.1"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "typescript"    : "^4.7.4"
+    }
 }
