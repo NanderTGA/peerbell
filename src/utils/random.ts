@@ -2,7 +2,7 @@ export function randomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * max) + min;
 }
 
-export function randomCharacter(characters = "abcdefghijklmnopqrstuvwxyz0123456789"): string {
+export function randomCharacter(characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"): string {
     return characters[randomNumber(0, characters.length - 1)];
 }
 
