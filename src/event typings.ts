@@ -9,7 +9,8 @@ export type Services = Record<string, Record<number, {
 }>;
 
 export interface ServerToClientEvents {
-    // nothing yet
+    request: (sender: string, port: number, data: unknown, callback: (response: unknown) => void) => void
+    response: (reqID: string, data: unknown) => void;
 }
 
 export interface ClientToServerEvents {
@@ -17,6 +18,7 @@ export interface ClientToServerEvents {
     "get address": (callback: (address: string | undefined) => void) => void
     expose: (port: number, serviceName: string, serviceDescription: string, callback: (success: boolean, error?: "port is not a number" | "port already in use" | "no address" ) => void) => void
     "get services": (callback: (services: Services) => void) => void
+    request: (address: string, port: number, data: unknown, callback: (reqID: string | undefined, error?: "invalid address" | "invalid port" | "sender has no address") => void) => void
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

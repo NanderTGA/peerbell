@@ -2,7 +2,7 @@ import https from "https";
 import express from "express";
 import { Server as SocketIOServer } from "socket.io";
 import { PeerbellServer, Services } from "../event typings";
-import generateAddress from "../utils/random";
+import generateAddress, { randomString } from "../utils/random";
 import users from "./users";
 import config from "./config";
 import { readFileSync } from "fs";
@@ -22,6 +22,8 @@ const io: PeerbellServer = new SocketIOServer(httpsServer, {
 });
 
 const services: Services = {};
+/** List of all current reqIDs */
+const reqs: Record<string, string> = {};
 
 io.on("connection", socket => {
     console.log("someone connected");
@@ -67,6 +69,25 @@ io.on("connection", socket => {
     socket.on("get services", callback => callback(services));
 
     socket.on("error", e => console.error("fail", e));
+
+    socket.on("request", (address, port, data, callback) => {
+        if (!socket.data.address) return callback(undefined, "sender has no address");
+        if (!address || !services[address]) return callback(undefined, "invalid address");
+        if (!port || !services[address][port]) return callback(undefined, "invalid port");
+
+        // generate unique req id
+        let reqID = randomString(12);
+        while (reqs[reqID]) reqID = randomString(12); // just in case we get unlucky
+        // return reqid and add it to reqs
+        reqs[reqID] = reqID;
+        callback(reqID);
+
+        console.log("sending req to", services[address].id);
+        io.to(services[address].id).emit("request", socket.data.address, port, data, response => {
+            console.log("response", response);
+            socket.emit("response", reqID, response);
+        });
+    });
 });
 
 app.get("/", (_req, res) => res.send("This is a peerbell server. Peerbell is an open-source alternative to p3 and bell for windows 96 made by Carbon 96."));
