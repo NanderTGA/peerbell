@@ -6,5 +6,10 @@ export namespace config {
         cert: PathOrFileDescriptor,
         ca: PathOrFileDescriptor
     };
+
+    /**
+     * @default 1620
+     */
+    let port: number | undefined;
 }
 export default config;

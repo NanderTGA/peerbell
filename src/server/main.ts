@@ -4,8 +4,10 @@ import { Server as SocketIOServer } from "socket.io";
 import { PeerbellServer, Services } from "../event typings";
 import generateAddress, { randomString } from "../utils/random";
 import users from "./users";
-import config from "./config";
 import { readFileSync } from "fs";
+
+import config from "./config";
+config.port = config.port || 1620;
 
 const app = express();
 const httpsServer = https.createServer({ // fuck http
