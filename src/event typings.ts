@@ -19,6 +19,7 @@ export interface ClientToServerEvents {
     "get services": (callback: (services: Services) => void) => void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InterServerEvents {
     // nothing yet
 }
