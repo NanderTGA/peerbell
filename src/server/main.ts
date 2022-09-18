@@ -1,7 +1,7 @@
 import https from "https";
 import express from "express";
 import { Server as SocketIOServer } from "socket.io";
-import { PeerbellServer, Services } from "../event typings";
+import { PeerbellServer, Services, ServerSideSocket } from "../event typings";
 import generateAddress, { randomString } from "../utils/random";
 import users from "./users";
 import { readFileSync } from "fs";
@@ -24,40 +24,44 @@ const io: PeerbellServer = new SocketIOServer(httpsServer, {
 });
 
 const services: Services = {};
+
 /** List of all current reqIDs */
 const reqs: Record<string, string> = {};
+
+// sockets[peerbellAddress] = socket
+const sockets: Record<string, ServerSideSocket> = {};
 
 io.on("connection", socket => {
     console.log("someone connected");
     socket.on("ready", (staticAddress, password, callback) => {
+        let address: string;
+
         if (staticAddress && password) {
             if (!(staticAddress in users)) return callback({ error: "wrong user" });
             if (!(users[staticAddress] == password)) return callback({ error: "wrong password" });
             if (services[staticAddress]) return callback({ error: "address in use" });
 
-            services[staticAddress] = { id: socket.id };
-            socket.data.address = staticAddress;
-            console.log(staticAddress, "logged on from ip", socket.handshake.address);
-            return callback({ address: staticAddress });
+            address = staticAddress;
+        } else {
+            address = generateAddress();
+            while (services[address]) address = generateAddress(); // just in case we get unlucky
         }
         
-        let address = generateAddress();
-        while (services[address]) address = generateAddress(); // just in case we get unlucky
-        
-        services[address] = { id: socket.id };
         socket.data.address = address;
+        services[address] = {};
+        sockets[address] = socket;
         console.log("welcome", address, "from ip", socket.handshake.address);
         return callback({ address: address });
     });
 
     socket.on("disconnect", reason => {
         console.log("bye bye", socket.data.address);
-        socket.data.address && services[socket.data.address] && delete services[socket.data.address];
+        if (!socket.data.address) return; // nothing to clean up
+        if (services[socket.data.address]) delete services[socket.data.address];
+        if (sockets[socket.data.address]) delete sockets[socket.data.address];
     });
 
-    socket.on("get address", callback => {
-        callback(socket.data.address);
-    });
+    socket.on("get address", callback => callback(socket.data.address) );
 
     socket.on("expose", (port, serviceName = "No name provided.", serviceDescription = "No description provided.", callback) => {
         if (!port || typeof port != "number") return callback(false, "port is not a number");
@@ -81,14 +85,17 @@ io.on("connection", socket => {
         let reqID = randomString(12);
         while (reqs[reqID]) reqID = randomString(12); // just in case we get unlucky
         // return reqid and add it to reqs
-        reqs[reqID] = reqID;
+        reqs[reqID] = socket.data.address;
         callback(reqID);
 
-        console.log("sending req to", services[address].id);
-        io.to(services[address].id).emit("request", socket.data.address, port, data, response => {
-            console.log("response", response);
-            socket.emit("response", reqID, response);
-        });
+        console.log("sending req to", sockets[address]);
+        
+        sockets[address].emit("request", socket.data.address, port, data);
+    });
+
+    socket.on("response", (reqID, data) => {
+        console.log("response to request", reqID, "to requester", reqs[reqID]);
+        socket.emit("response", reqID, data);
     });
 });
 

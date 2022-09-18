@@ -4,12 +4,10 @@ import { Socket as SocketIOClient } from "socket.io-client";
 export type Services = Record<string, Record<number, {
     name: string;
     description: string;
-}> & {
-    id: string
-}>;
+}> >;
 
 export interface ServerToClientEvents {
-    request: (sender: string, port: number, data: unknown, callback: (response: unknown) => void) => void
+    request: (sender: string, port: number, data: unknown) => void
     response: (reqID: string, data: unknown) => void;
 }
 
