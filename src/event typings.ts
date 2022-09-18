@@ -28,6 +28,9 @@ export interface InterServerEvents {
 }
 
 export interface SocketData {
+    /**
+     * The peerbell address of the socket.
+     */
     address: string
 }
 
