@@ -88,14 +88,15 @@ io.on("connection", socket => {
         reqs[reqID] = socket.data.address;
         callback(reqID);
 
-        console.log("sending req to", sockets[address]);
+        console.log("sending req to", address);
         
-        sockets[address].emit("request", socket.data.address, port, data);
+        sockets[address].emit("request", socket.data.address, port, data, reqID);
     });
 
     socket.on("response", (reqID, data) => {
         console.log("response to request", reqID, "to requester", reqs[reqID]);
-        socket.emit("response", reqID, data);
+        sockets[reqs[reqID]].emit("response", reqID, data);
+        delete reqs[reqID];
     });
 });
 

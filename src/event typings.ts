@@ -7,7 +7,7 @@ export type Services = Record<string, Record<number, {
 }> >;
 
 export interface ServerToClientEvents {
-    request: (sender: string, port: number, data: unknown) => void
+    request: (sender: string, port: number, data: unknown, reqID: string) => void
     response: (reqID: string, data: unknown) => void;
 }
 
