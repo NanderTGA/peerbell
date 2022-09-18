@@ -37,7 +37,7 @@ io.on("connection", socket => {
 
             services[staticAddress] = { id: socket.id };
             socket.data.address = staticAddress;
-            console.log(staticAddress, "logged on");
+            console.log(staticAddress, "logged on from ip", socket.handshake.address);
             return callback({ address: staticAddress });
         }
         
@@ -46,7 +46,7 @@ io.on("connection", socket => {
         
         services[address] = { id: socket.id };
         socket.data.address = address;
-        console.log("welcome", address);
+        console.log("welcome", address, "from ip", socket.handshake.address);
         return callback({ address: address });
     });
 
