@@ -104,3 +104,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Prevent the update script from breaking
+update.sh
