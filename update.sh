@@ -5,4 +5,5 @@ pm2 stop peerbell --watch
 git pull
 npm i
 npm audit fix
+npx tsc
 pm2 start peerbell
